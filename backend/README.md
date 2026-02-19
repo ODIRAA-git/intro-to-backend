@@ -1,1 +1,1 @@
-//info abou this project is contained here!!
+this contain info about this project
