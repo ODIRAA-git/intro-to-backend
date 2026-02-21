@@ -1,0 +1,459 @@
+.root-adjust{}
+:root{
+  /* Palette from https://colorhunt.co/palette/0b2d720992c20ac4e0f6e7bc */
+  --pal-dark-blue: #0b2d72;
+  --pal-green: #00992c;
+  --pal-cyan: #0AC4E0;
+  --pal-beige: #f6e7bc;
+  /* default to light theme (no initial blue flash) */
+  --bg-1: #f7fbf6; /* light page background */
+  --bg-2: #eaf5e7; /* subtle secondary */
+
+  /* main accents for light theme */
+  --accent: #6CA651;
+  --accent-2: #BBCB2E;
+  --muted: rgba(24,59,17,0.72);
+
+  /* card / panel background for light theme */
+  --card-bg: rgba(138,196,120,0.08);
+  --text: #183b11;
+  --section-text: #183b11;
+  /* dropdown background (overrides below for dark theme) */
+  --dropdown-bg: rgba(255,255,255,0.96);
+  --dropdown-color: var(--section-text);
+}
+
+/* Theme variants */
+
+/* Theme variants (keep simple overrides) */
+.theme-colorful, .theme-colorful :root {
+  /* Light mode palette from https://colorhunt.co/palette/6ca651bbcb2e8397056b7445 */
+  --theme-1: #6CA651; /* green */
+  --theme-2: #BBCB2E; /* lime */
+  --theme-3: #839705; /* olive */
+  --theme-4: #6B7445; /* muted moss */
+
+  --bg-1: #f7fbf6; /* very light neutral for page */
+  --bg-2: #eaf5e7; /* secondary pale */
+  --text: #183b11; /* dark greenish for text */
+  --section-text: #183b11;
+  --accent: var(--theme-1);
+  --accent-2: var(--theme-2);
+  --card-bg: rgba(138,196,120,0.08);
+  --muted: rgba(24,59,17,0.68);
+}
+
+.theme-dark, .theme-dark :root {
+  --bg-1: #021026;
+  --bg-2: #022c36;
+  --text: var(--pal-beige);
+  --section-text: var(--pal-beige);
+  --dropdown-bg: rgba(2,8,24,0.92);
+  --dropdown-color: var(--text);
+  /* muted text in dark mode should be light for contrast */
+  --muted: rgba(255,255,255,0.78);
+}
+
+*{box-sizing:border-box}
+.body-adjust{}
+body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:linear-gradient(135deg,var(--bg-1),var(--bg-2));color:var(--text);min-height:100vh}
+.app.full{min-height:100vh;display:flex;flex-direction:column}
+.navbar{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.brand-link{font-weight:700;color:var(--text);text-decoration:none}
+.brand .accent{color:var(--accent)}
+.nav-links{display:flex;gap:16px;list-style:none;padding:0;margin:0;align-items:center}
+.nav-theme{display:flex;align-items:center}
+.theme-switcher{display:flex;gap:6px}
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;padding:6px;border-radius:8px;border:0;background:transparent;color:var(--text);cursor:pointer;width:36px;height:36px}
+.theme-btn svg{opacity:0.95}
+.theme-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,0.03)}
+.nav-links a,.nav-links button{color:var(--text);text-decoration:none;background:transparent;border:0;cursor:pointer}
+.dropdown{position:relative}
+.dropbtn{padding:6px 8px;border-radius:6px}
+/* make the dropdown expand across the page and sit above translucent sections */
+.dropdown-content{
+  position:fixed;
+  left:0;
+  right:0;
+  top:56px; /* slightly tighter under navbar to gain vertical space */
+  width:100%;
+  display:flex;
+  justify-content:center;
+  background:var(--dropdown-bg);
+  color:var(--dropdown-color);
+  backdrop-filter: blur(6px) saturate(110%);
+  box-shadow:0 18px 40px rgba(2,8,24,0.12);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  padding:10px 0;
+  z-index:2200;
+}
+.dropdown-inner{max-width:1100px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;width:100%;padding:6px;max-height:calc(100vh - 120px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.dropdown-inner a{display:block;padding:8px;border-radius:6px;color:var(--dropdown-color);text-decoration:none;background:transparent}
+.dropdown-inner a:hover{background:rgba(0,0,0,0.04)}
+
+/* smaller scrollbar for dropdown */
+.dropdown-inner::-webkit-scrollbar{width:8px}
+.dropdown-inner::-webkit-scrollbar-thumb{background:rgba(2,8,24,0.12);border-radius:8px}
+
+/* smaller scrollbar for dropdown */
+.dropdown-inner::-webkit-scrollbar{width:10px}
+.dropdown-inner::-webkit-scrollbar-thumb{background:rgba(2,8,24,0.12);border-radius:8px}
+
+.content-wrap{flex:1;max-width:1200px;margin:20px auto;padding:18px;width:100%}
+
+/* Auth pages */
+.auth-page{display:flex;justify-content:center;align-items:flex-start;padding:24px 12px}
+.auth-card{width:100%;max-width:460px;background:var(--card-bg);border-radius:12px;padding:22px 20px;box-shadow:0 10px 30px rgba(2,8,24,0.08)}
+.auth-card h2{margin:0 0 6px}
+.auth-sub{margin:0 0 16px;color:var(--muted)}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-form label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--section-text)}
+.auth-form input{padding:10px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.12);background:rgba(255,255,255,0.5);color:var(--text);outline:none}
+.auth-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,166,81,0.18)}
+.auth-status{margin-top:12px;font-size:14px;color:var(--section-text)}
+
+/* Increase spacing between main sections for better readability */
+.content-wrap > * + * {
+  margin-top: 72px;
+}
+.hero{display:flex;gap:20px;align-items:center;background:var(--card-bg);padding:28px;border-radius:12px}
+.hero, .content-wrap section:not(.hero){color:var(--section-text)}
+.hero-left{flex:1}
+.hero-right{width:320px}
+.hero h1{margin:0 0 8px;font-size:30px}
+.hero p{color:var(--muted);margin:0 0 16px}
+.btn{display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+.hero-svg{width:100%;height:140px}
+/* logo circle in hero */
+.hero-visual{position:relative;width:100%;height:160px;display:flex;align-items:center;justify-content:center}
+.hero-logo-circle{width:160px;height:160px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;overflow:hidden;border:4px solid rgba(255,255,255,0.14);box-shadow:0 8px 20px rgba(2,8,24,0.08);position:absolute;z-index:2}
+.hero-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.hero-visual .hero-svg{position:relative;z-index:1;opacity:0.9}
+
+.benefits{margin-top:24px}
+.benefit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.benefit-card{background:rgba(2,8,24,0.06);padding:14px;border-radius:10px}
+
+.workouts-preview{margin-top:22px}
+.workout-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.workout-preview{display:flex;gap:12px;align-items:center;padding:14px;background:rgba(2,8,24,0.04);border-radius:12px;text-decoration:none;color:var(--text)}
+.preview-thumb{width:72px;height:72px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center}
+.preview-body h3{margin:0}
+
+/* Media-style cards for gender guides: larger image + supporting text */
+.workout-preview.media-card{display:flex;flex-direction:column;align-items:stretch;padding:12px}
+.workout-preview.media-card .media-thumb{width:100%;height:320px;border-radius:14px;overflow:hidden;flex:0 0 auto}
+.workout-preview.media-card .media-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.workout-preview.media-card .media-body{padding:12px 14px;display:block}
+.workout-preview.media-card .media-body .support{color:var(--muted);margin-top:10px}
+.workout-preview.media-card{border-radius:14px}
+
+/* keep female-specific slightly larger thumbnail fallback (backwards compatibility) */
+.workout-preview.female .preview-thumb{width:120px;height:120px;border-radius:12px;overflow:hidden;background:transparent}
+.workout-preview.female .preview-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.workout-preview.female .preview-body{max-width:720px}
+
+/* increase vertical space for the entire section so large images fit comfortably */
+.workouts-preview{padding:24px;border-radius:12px}
+.workouts-preview .workout-grid{align-items:start}
+.workouts-preview{min-height:480px}
+
+@media (max-width:900px){
+  .workout-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .workout-preview.media-card .media-thumb{width:100%;height:160px;flex:0 0 auto}
+  .workout-preview{padding:10px}
+  .workouts-preview{min-height:auto}
+}
+
+.workout-page .workout-header{margin-bottom:18px}
+.animation-row{display:flex;gap:16px;align-items:flex-start}
+.animation-stage{width:360px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:22px;border-radius:10px}
+/* HIIT stage: main image plus two accent images positioned decoratively */
+.hiit-stage{position:relative;width:640px;min-height:520px;padding:0;border-radius:12px;overflow:visible}
+.hiit-stage .hiit-main{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+.hiit-step-image{width:100%;margin-bottom:12px}
+.hiit-step-image img{width:100%;height:340px;object-fit:cover;border-radius:10px}
+.hiit-loop-image{width:100%;margin-bottom:12px}
+.hiit-loop-image img{width:100%;height:340px;object-fit:cover;border-radius:10px}
+
+/* Card stack (solitaire) display for HIIT images */
+.card-stack{position:relative;width:640px;height:480px;margin:0 auto}
+.card-stack .card{position:absolute;left:50%;top:50%;width:86%;height:86%;transition:transform 900ms cubic-bezier(.2,.9,.3,1),opacity 500ms;border-radius:14px;box-shadow:0 8px 30px rgba(2,8,24,0.16);overflow:hidden;box-sizing:border-box;border:6px solid var(--accent);background:var(--card-bg)}
+.card-stack .card img{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px}
+
+@media (max-width:900px){
+  .card-stack{width:100%;height:320px}
+  .card-stack .card{width:92%;height:92%}
+}
+
+/* Straight stacked cards: back cards sit lower, front card slides up then out */
+.card-stack .card.back{transform-origin:center;opacity:0.95}
+.card-stack .card.front{animation-name:cardSlideUp;animation-timing-function:cubic-bezier(.2,.9,.3,1);animation-fill-mode:forwards;animation-iteration-count:1}
+
+@keyframes cardSlideUp{
+  0%{transform:translate(-50%,-50%) translateY(36px);opacity:0}
+  12%{opacity:1}
+  32%{transform:translate(-50%,-50%) translateY(0);opacity:1}
+  66%{transform:translate(-50%,-50%) translateY(-36px);opacity:0}
+  100%{opacity:0}
+}
+
+.benefits-body{display:flex;gap:12px;align-items:flex-start}
+.hiit-benefit-image{flex:0 0 280px}
+.hiit-benefit-image img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+
+/* Full Body stage mirrors HIIT for consistent card-stack sizing */
+/* Ensure fullbody animation stage is visible and doesn't shrink inside flex row */
+.animation-stage.fullbody-stage{
+  width:640px;
+  min-height:520px;
+  padding:0;
+  border-radius:12px;
+  overflow:visible;
+  flex:0 0 640px;
+  display:block;
+}
+.fullbody-stage .fullbody-main{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+.fullbody-stage .card-stack{width:100%;height:480px}
+@media (max-width:900px){
+  .fullbody-stage{width:100%;min-height:220px}
+}
+
+/* Upper Body card-stack styling (placed after benefits) */
+.animation-stage.upper-stage{
+  width:640px;
+  min-height:480px;
+  padding:0;
+  border-radius:12px;
+  overflow:visible;
+  flex:0 0 640px;
+  display:block;
+}
+.upper-stage .card-stack{width:100%;height:420px}
+@media (max-width:900px){
+  .animation-stage.upper-stage{width:100%;min-height:220px}
+  .upper-stage .card-stack{height:300px}
+}
+
+@media (max-width:900px){
+  .hiit-stage{width:100%;min-height:220px}
+  .hiit-step-image img{height:220px}
+  .hiit-benefit-image{flex:0 0 140px}
+  .hiit-benefit-image img{height:100px}
+  .benefits-body{flex-direction:column}
+}
+
+/* Core-specific images (mirror HIIT sizing and placement) */
+.core-stage{position:relative;width:640px;min-height:360px;padding:0;border-radius:12px;overflow:visible}
+.core-stage .core-main{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+.core-step-image{width:100%;margin-bottom:12px}
+.core-step-image img{width:100%;height:340px;object-fit:cover;border-radius:10px}
+.core-benefit-image{flex:0 0 280px}
+.core-benefit-image img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+
+@media (max-width:900px){
+  .core-stage{width:100%;min-height:220px}
+  .core-step-image img{height:220px}
+  .core-benefit-image{flex:0 0 140px}
+  .core-benefit-image img{height:100px}
+  .benefits-body{flex-direction:column}
+}
+
+/* Flexibility-specific images */
+.flex-stage{position:relative;width:640px;min-height:360px;padding:0;border-radius:12px;overflow:visible}
+.flex-stage .flex-main{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+.flex-step-image{width:100%;margin-bottom:12px}
+.flex-step-image img{width:100%;height:340px;object-fit:cover;border-radius:10px}
+.flex-benefit-image{flex:0 0 280px}
+.flex-benefit-image img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+
+.flex-loop-image{width:100%;margin-bottom:12px}
+.flex-loop-image img{width:100%;height:340px;object-fit:cover;border-radius:10px}
+
+@media (max-width:900px){
+  .flex-stage{width:100%;min-height:220px}
+  .flex-step-image img{height:220px}
+  .flex-benefit-image{flex:0 0 140px}
+  .flex-benefit-image img{height:100px}
+  .benefits-body{flex-direction:column}
+}
+
+/* Full body stage styling mirrors HIIT/Core card-stack sizing */
+.fullbody-stage{/* removed - reset to default */}
+
+.move-list-panel{flex:0 0 320px;display:grid;gap:12px}
+.animation-row .animation-stage{flex:1}
+.workout-header .workout-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.workout-header .meta-item{background:rgba(0,0,0,0.03);padding:8px 10px;border-radius:8px;font-size:14px}
+
+.program-section{margin-top:22px}
+.howto-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.howto-card{background:var(--card-bg);padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.04)}
+.howto-card ol{margin:8px 0 0 18px;color:var(--muted)}
+.howto-card p{color:var(--muted)}
+.step-row{display:flex;gap:8px;align-items:flex-start}
+.step-text{flex:1}
+.step-action{flex:0 0 120px}
+.step-media .step-media-btn{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 8px;border-radius:8px;cursor:pointer}
+.step-media-panel{margin-top:8px}
+.step-svg{width:100%;height:110px}
+.progressions{margin-top:8px;color:var(--muted)}
+
+/* Program loop image for Full Body workouts */
+.program-loop-image{display:flex;justify-content:center;margin:12px 0}
+.program-loop-image img{width:100%;max-width:520px;height:auto;object-fit:cover;border-radius:12px;border:6px solid var(--accent);box-shadow:0 10px 30px rgba(2,8,24,0.12)}
+
+@media (max-width:900px){
+  .program-loop-image img{max-width:100%;height:auto;border-width:4px}
+}
+
+/* Two-column layout for program: GIF left, texts right */
+.program-row{display:flex;gap:24px;align-items:flex-start;justify-content:space-between}
+.program-row .program-loop-image{flex:0 0 420px;max-width:420px}
+.program-row .program-loop-image img{width:100%;height:auto}
+.program-row .howto-list{flex:1;display:block;margin-left:20px;max-width:calc(100% - 460px)}
+.program-row .howto-list .howto-card{margin-bottom:12px}
+@media (max-width:900px){
+  .program-row{display:block}
+  .program-row .program-loop-image{margin-bottom:12px;max-width:100%;flex:0 0 auto}
+}
+
+/* Stronger rule to ensure horizontal layout for program-row inside program-section */
+.program-section > .program-row{display:flex !important;align-items:flex-start}
+.program-section > .program-row > .program-loop-image{flex:0 0 420px;margin-right:20px}
+.program-section > .program-row > .howto-list{flex:1;min-width:280px}
+
+/* Two-column wrapper for animation + how-to sections */
+/* Removed two-col-row — Full Body layout handled by `program-row` and specific section styles */
+
+/* Benefits section styles */
+.benefits-section{padding:12px 14px;border-radius:10px;background:var(--card-bg);border:1px solid rgba(0,0,0,0.04);margin-top:18px}
+.benefit-list{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:8px 0 0}
+.benefit-list li{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:8px 12px;border-radius:999px;font-size:14px}
+.sample-program .program-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.sample-program .program-day{background:var(--card-bg);padding:12px;border-radius:10px}
+.sample-program h3{margin-top:0}
+.content-wrap section:not(.hero){
+  position:relative;
+  padding:28px 40px;
+  border-radius:12px;
+  overflow:visible;
+  z-index:0;
+}
+
+/* Accent stripe on the left of the section */
+.content-wrap section:not(.hero)::before{
+  content:"";
+  position:absolute;
+  left:24px;
+  top:28px;
+  bottom:28px;
+  width:8px;
+  border-radius:6px;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  z-index:1;
+}
+
+/* Full-bleed background and shadow using ::after so content stays centered */
+.content-wrap section:not(.hero)::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:100vw;
+  top:0;
+  bottom:0;
+  border-radius:12px;
+  background:var(--card-bg);
+  backdrop-filter: blur(4px) saturate(110%);
+  border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 14px 40px rgba(2,8,24,0.08);
+  /* put background behind content so text remains visible */
+  z-index:-1;
+}
+
+/* Make hero visually separated too */
+.hero{border:1px solid rgba(0,0,0,0.06);box-shadow:0 10px 30px rgba(2,8,24,0.06);padding-left:40px;padding-right:40px}
+
+/* Make hero full-bleed background as well */
+.hero::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:100vw;
+  top:0;
+  bottom:0;
+  border-radius:12px;
+  /* subtle cyan-toned glass to highlight hero */
+  background:linear-gradient(90deg, rgba(10,196,224,0.06), rgba(246,231,188,0.06));
+  backdrop-filter: blur(6px) saturate(110%);
+  z-index:-1;
+}
+
+/* Extra spacing above footer */
+.site-footer.modern{margin-top:48px}
+
+
+/* Slightly larger gaps for move cards */
+.move-list-panel > * + * { gap: 14px }
+
+.site-footer{border-top:1px solid rgba(255,255,255,0.03);padding:12px 0;margin-top:24px}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between}
+
+/* Modern footer */
+.site-footer.modern{background:linear-gradient(90deg,var(--pal-cyan),var(--pal-dark-blue));color:var(--text);padding:28px;border-radius:12px;margin-top:28px}
+.theme-colorful .site-footer.modern{background:#6B7445;color:var(--bg-1)}
+.theme-colorful .site-footer.modern .imprint{color:rgba(255,255,255,0.9)}
+.theme-colorful .site-footer.modern .footer-nav a,.theme-colorful .site-footer.modern .btn-link{color:rgba(255,255,255,0.95)}
+.theme-colorful .site-footer.modern .social-link{background:rgba(255,255,255,0.06);color:var(--bg-1)}
+.site-footer.modern .footer-top{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;max-width:1200px;margin:0 auto}
+.site-footer.modern .footer-brand{flex:1}
+.site-footer.modern .brand{font-weight:800;font-size:20px}
+.site-footer.modern .imprint{margin-top:6px;color:rgba(255,255,255,0.75);font-size:13px}
+.site-footer.modern .footer-nav{display:flex;gap:12px;align-items:center}
+.site-footer.modern .footer-nav a,.site-footer.modern .btn-link{color:rgba(255,255,255,0.95);text-decoration:none;background:transparent;border:0;cursor:pointer;padding:6px 8px;border-radius:8px}
+.site-footer.modern .btn-link{background:rgba(255,255,255,0.04)}
+.site-footer.modern .footer-social{display:flex;gap:10px;align-items:center}
+.site-footer.modern .social-link{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.04);color:#fff}
+.site-footer.modern .social-link:hover{background:rgba(255,255,255,0.09);transform:translateY(-2px)}
+.site-footer.modern .footer-bottom{max-width:1200px;margin:18px auto 0;display:flex;justify-content:space-between;color:rgba(255,255,255,0.75);font-size:13px}
+.site-footer.modern .legal{display:flex;gap:12px}
+.site-footer.modern .legal a{color:rgba(255,255,255,0.75);text-decoration:none}
+
+.site-footer.modern {box-shadow:0 -6px 30px rgba(1,58,63,0.15)}
+
+/* Stick figure animation */
+.stick-figure{width:120px;height:200px;position:relative;margin:6px auto}
+.stick-figure .head{width:24px;height:24px;border-radius:50%;background:var(--accent);position:absolute;left:48px;top:8px}
+.stick-figure .torso{width:6px;height:70px;background:var(--text);position:absolute;left:57px;top:36px;border-radius:4px}
+.stick-figure .arm{width:48px;height:6px;background:var(--text);position:absolute;top:56px;border-radius:4px;transform-origin:left}
+.stick-figure .arm.left{left:8px;transform:rotate(-30deg)}
+.stick-figure .arm.right{left:66px;transform:rotate(30deg)}
+.stick-figure .leg{width:6px;height:64px;background:var(--text);position:absolute;left:54px;top:100px;border-radius:4px;transform-origin:top}
+.stick-figure .leg.left{transform:rotate(20deg);left:44px}
+.stick-figure .leg.right{transform:rotate(-20deg);left:66px}
+
+.stick-figure.squat .torso{animation:torsoSquat 1s ease-in-out infinite}
+.stick-figure.squat .leg{animation:legSquat 1s ease-in-out infinite}
+.stick-figure.push .arm{animation:armPush 0.9s ease-in-out infinite}
+.stick-figure.run .leg{animation:legRun 0.6s linear infinite}
+
+@keyframes torsoSquat{0%{transform:translateY(0)}50%{transform:translateY(12px)}100%{transform:translateY(0)}}
+@keyframes legSquat{0%{transform:rotate(20deg)}50%{transform:rotate(45deg)}100%{transform:rotate(20deg)}}
+@keyframes armPush{0%{transform:rotate(30deg)}50%{transform:rotate(10deg)}100%{transform:rotate(30deg)}}
+@keyframes legRun{0%{transform:rotate(20deg)}50%{transform:rotate(-20deg)}100%{transform:rotate(20deg)}}
+
+/* move card tweaks */
+.move-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+.move-desc{color:var(--muted);margin:8px 0}
+.preview-body p{color:var(--muted);margin:6px 0}
+.support{color:var(--muted)}
+
+/* ensure general paragraph text inside sections uses muted variable for consistent contrast */
+.content-wrap section p{color:var(--muted)}
+.move-benefits{margin:6px 0 0 18px;color:var(--muted)}
+.move-tips{margin-top:8px;color:var(--muted)}
