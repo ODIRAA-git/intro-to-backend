@@ -35,19 +35,33 @@ const createUser = async (req, res) => { // Define an asynchronous function to h
 
 const loginUser = async (req, res) => { // Define an asynchronous function to handle user login
     try {
-        const { email, password } = req.body; // Extract login details from the request body
+        if (!req.body) {
+            return res.status(400).json({ message: "Request body is missing" });
+        }
+        const { email, password } = req.body; // checking if user already exists in the database
+        console.log("Login attempt:", { email });
         // Check if required fields are missing
         if (!email || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
         // Find user by email
-        const user = await User.findOne({ email: email.toLowerCase().trim() });
+        const user = await User.findOne({ 
+            email: email.toLowerCase().trim() 
+        });
         if (!user) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
-        // Compare passwords (plain text for now)
-        if (user.password !== password) {
-            return res.status(401).json({ message: "Invalid email or password" });
+        // Compare passwords (hashed)
+        const canCompare = typeof user.comparePassword === "function";
+        const isMatch = canCompare ? await user.comparePassword(password) : false; // Use the comparePassword method to check if the provided password matches the stored hashed password
+        if (!isMatch) {
+            // Legacy fallback: user was created before hashing
+            if (user.password === password) {
+                user.password = password; // re-hash on save
+                await user.save();
+            } else {
+                return res.status(401).json({ message: "Invalid email or password" }); // Send a 401 response if the password is incorrect
+            }
         }
         res.status(200).json({
             message: "Login successful",
@@ -56,8 +70,8 @@ const loginUser = async (req, res) => { // Define an asynchronous function to ha
             username: user.username
         });
     } catch (error) {
-        console.log(`Error logging in user: ${error.message}`);
-        res.status(500).json({ message: "Server error" });
+        console.error("Error logging in user:", error);
+        res.status(500).json({ message: "Server error", detail: error?.message });
     }
 };
 
