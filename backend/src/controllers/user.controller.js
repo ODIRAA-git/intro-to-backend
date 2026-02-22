@@ -74,5 +74,22 @@ const loginUser = async (req, res) => { // Define an asynchronous function to ha
         res.status(500).json({ message: "Server error", detail: error?.message });
     }
 };
-
-export { createUser, loginUser }; // Export the createUser and loginUser functions to be used in route handlers
+const logoutUser = async (req, res) => {
+    try {
+        const { email } = req.body; // Extract the email from the request body
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" }); // Send a 400 response if the email is missing
+        }
+        const user = await User.findOne({ email: email.toLowerCase().trim() }); // Find the user by email
+        if (!user) {                                                                                                        
+            return res.status(404).json({ message: "User not found" }); // Send a 404 response if the user is not found         
+        }                       
+        user.loggedIn = false; // Set the user's loggedIn status to false
+        await user.save(); // Save the updated user document
+        res.status(200).json({ message: "Logout successful" }); // Send a 200 response indicating successful logout
+    } catch (error) {
+        console.error("Error logging out user:", error);
+        res.status(500).json({ message: "Server error", detail: error?.message }); // Send a 500 response if an error occurs
+    }
+};  
+export { createUser, loginUser, logoutUser }; // Export the createUser, loginUser, and logoutUser functions to be used in route handlers
